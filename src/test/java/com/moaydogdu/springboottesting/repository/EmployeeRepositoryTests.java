@@ -3,6 +3,7 @@ package com.moaydogdu.springboottesting.repository;
 import com.moaydogdu.springboottesting.model.entity.Employee;
 import org.assertj.core.api.Assertions;
 import org.hibernate.query.sqm.mutation.internal.cte.CteInsertStrategy;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,22 @@ public class EmployeeRepositoryTests {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    private Employee employee;
+
+    @BeforeEach
+    public void setup(){
+        employee = Employee.builder()
+                .firstName("Muhammet Oğuzhan")
+                .lastName("AYDOĞDU")
+                .email("m.o.aydogdu@outlook.com")
+                .build();
+    }
+
     // JUnit test for save employee operation.
     @Test
     @DisplayName("JUnit test for save employee operation.")
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
         // given - precondition or setup
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
 
         // when - action or the behaviour that we are going test
         Employee savedEmployee = employeeRepository.save(employee);
@@ -45,19 +52,13 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeesList_whenFindAll_thenEmployeesList() {
         // given
-        Employee employee1 = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
-
         Employee employee2 = Employee.builder()
                 .firstName("Nurettin")
                 .lastName("BAŞTÜRK")
                 .email("nurettinbasturk@gmail.com")
                 .build();
 
-        employeeRepository.save(employee1);
+        employeeRepository.save(employee);
         employeeRepository.save(employee2);
 
         // when
@@ -73,17 +74,12 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenFindEmployeeById_thenReturnEmployeeObjectFromDb() {
         // given
-        Employee employee1 = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
 
-        employeeRepository.save(employee1);
+        employeeRepository.save(employee);
 
         // when
         Employee employeeFromDb = employeeRepository
-                .findById(employee1.getId())
+                .findById(employee.getId())
                 .get();
 
         // then
@@ -95,12 +91,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenFindEmployeeByEmail_thenReturnEmployeeObjectFromDb() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
-
         employeeRepository.save(employee);
 
         // when
@@ -117,12 +107,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployeeObjectFromDb() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
-
         employeeRepository.save(employee);
 
         // when
@@ -147,11 +131,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
         employeeRepository.save(employee);
 
         // when
@@ -168,11 +147,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByJPQL_thenRetunEmployeeObject() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
         employeeRepository.save(employee);
 
         String firstName = "Muhammet Oğuzhan";
@@ -191,11 +165,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByJPQLNamedParams_thenRetunEmployeeObject() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
         employeeRepository.save(employee);
 
         String firstName = "Muhammet Oğuzhan";
@@ -214,11 +183,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByNativeSQL_thenRetunEmployeeObject() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
         employeeRepository.save(employee);
 
         //String firstName = "Muhammet Oğuzhan";
@@ -237,11 +201,6 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByNativeSQLWithParams_thenRetunEmployeeObject() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("Muhammet Oğuzhan")
-                .lastName("AYDOĞDU")
-                .email("m.o.aydogdu@outlook.com")
-                .build();
         employeeRepository.save(employee);
 
         //String firstName = "Muhammet Oğuzhan";
