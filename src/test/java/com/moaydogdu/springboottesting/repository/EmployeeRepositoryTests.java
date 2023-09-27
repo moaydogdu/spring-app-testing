@@ -145,7 +145,7 @@ public class EmployeeRepositoryTests {
     // JUnit test for delete employee operation.
     @DisplayName("JUnit test for delete employee operation.")
     @Test
-    public void givenEmployeeObject_whenDelete_thenRemoveEmployee(){
+    public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
         // given
         Employee employee = Employee.builder()
                 .firstName("Muhammet Oğuzhan")
@@ -161,6 +161,98 @@ public class EmployeeRepositoryTests {
 
         // then
         assertThat(employeeOptional).isEmpty();
+    }
+
+    // JUnit test for custom query using JPQL with index params.
+    @DisplayName("JUnit test for custom query using JPQL with index params.")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByJPQL_thenRetunEmployeeObject() {
+        // given
+        Employee employee = Employee.builder()
+                .firstName("Muhammet Oğuzhan")
+                .lastName("AYDOĞDU")
+                .email("m.o.aydogdu@outlook.com")
+                .build();
+        employeeRepository.save(employee);
+
+        String firstName = "Muhammet Oğuzhan";
+        String lastName = "AYDOĞDU";
+
+        // when
+        Employee savedEmployee = employeeRepository
+                .findByJPQL(firstName, lastName);
+
+        // then
+        assertThat(savedEmployee).isNotNull();
+    }
+
+    // JUnit test for custom query using JPQL with named params.
+    @DisplayName("JUnit test for custom query using JPQL with named params.")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByJPQLNamedParams_thenRetunEmployeeObject() {
+        // given
+        Employee employee = Employee.builder()
+                .firstName("Muhammet Oğuzhan")
+                .lastName("AYDOĞDU")
+                .email("m.o.aydogdu@outlook.com")
+                .build();
+        employeeRepository.save(employee);
+
+        String firstName = "Muhammet Oğuzhan";
+        String lastName = "AYDOĞDU";
+
+        // when
+        Employee savedEmployee = employeeRepository
+                .findByJPQLNamedParams(firstName, lastName);
+
+        // then
+        assertThat(savedEmployee).isNotNull();
+    }
+
+    // JUnit test for custom query using native SQL.
+    @DisplayName("JUnit test for custom query using native SQL.")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByNativeSQL_thenRetunEmployeeObject() {
+        // given
+        Employee employee = Employee.builder()
+                .firstName("Muhammet Oğuzhan")
+                .lastName("AYDOĞDU")
+                .email("m.o.aydogdu@outlook.com")
+                .build();
+        employeeRepository.save(employee);
+
+        //String firstName = "Muhammet Oğuzhan";
+        //String lastName = "AYDOĞDU";
+
+        // when
+        Employee savedEmployee = employeeRepository
+                .findByNativeSQL(employee.getFirstName(), employee.getLastName());
+
+        // then
+        assertThat(savedEmployee).isNotNull();
+    }
+
+    // JUnit test for custom query using native SQL with named params.
+    @DisplayName("JUnit test for custom query using native SQL with named params.")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByNativeSQLWithParams_thenRetunEmployeeObject() {
+        // given
+        Employee employee = Employee.builder()
+                .firstName("Muhammet Oğuzhan")
+                .lastName("AYDOĞDU")
+                .email("m.o.aydogdu@outlook.com")
+                .build();
+        employeeRepository.save(employee);
+
+        //String firstName = "Muhammet Oğuzhan";
+        //String lastName = "AYDOĞDU";
+
+        // when
+        Employee savedEmployee = employeeRepository
+                .findByNativeSQLNamedParams(employee.getFirstName(), employee.getLastName());
+
+        // then
+        assertThat(savedEmployee).isNotNull();
     }
 
 
