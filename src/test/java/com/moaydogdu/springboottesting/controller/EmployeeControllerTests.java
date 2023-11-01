@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,7 +24,7 @@ import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest
-public class EmployeeControllerTest {
+public class EmployeeControllerTests {
 
 
     @Autowired
@@ -106,6 +107,52 @@ public class EmployeeControllerTest {
                         ))
                 .andDo(print());
     }
+
+    // positive scenario - valid employee id
+    // JUnit test for GET employee by id from REST API
+    @SneakyThrows
+    @Test
+    public void givenEmployeeId_whenGetEmployeeByID_thenReturnEmployeeObject(){
+        // given
+        long employeeId = 1L;
+        Employee employee = Employee.builder()
+                .firstName("Muhammet Oğuzhan")
+                .lastName("AYDOĞDU")
+                .email("moaydogdu@enbsoftware.com")
+                .build();
+
+        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.of(employee));
+
+        // when
+        ResultActions response = mockMvc.perform(get("/api/employees/{id}",employeeId));
+
+        // then
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.firstName",is(employee.getFirstName())))
+                .andExpect(jsonPath("$.lastName",is(employee.getLastName())))
+                .andExpect(jsonPath("$.email",is(employee.getEmail())));
+    }
+
+
+    // positive scenario - valid employee id
+    // JUnit test for GET employee by id from REST API
+    @SneakyThrows
+    @Test
+    public void givenUnValidEmployeeId_whenGetEmployeeByID_thenReturnNotFound(){
+        // given
+        long employeeId = -1L;
+
+        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.empty());
+
+        // when
+        ResultActions response = mockMvc.perform(get("/api/employees/{id}",employeeId));
+
+        // then
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
 
 
 
