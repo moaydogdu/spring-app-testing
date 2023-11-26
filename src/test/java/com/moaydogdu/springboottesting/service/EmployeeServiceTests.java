@@ -4,6 +4,9 @@ import com.moaydogdu.springboottesting.exception.ResourceNotFoundException;
 import com.moaydogdu.springboottesting.model.entity.Employee;
 import com.moaydogdu.springboottesting.repository.EmployeeRepository;
 import com.moaydogdu.springboottesting.service.impl.EmployeeServiceImpl;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.verify;
-
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTests {

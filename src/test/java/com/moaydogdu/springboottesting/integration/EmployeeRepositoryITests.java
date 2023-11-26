@@ -1,6 +1,8 @@
-package com.moaydogdu.springboottesting.repository;
+package com.moaydogdu.springboottesting.integration;
 
+import com.moaydogdu.springboottesting.integration.AbstractIntegrationTest;
 import com.moaydogdu.springboottesting.model.entity.Employee;
+import com.moaydogdu.springboottesting.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,11 +13,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class EmployeeRepositoryTests {
+public class EmployeeRepositoryITests extends AbstractIntegrationTest {
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
